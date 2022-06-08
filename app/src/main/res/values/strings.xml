@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">House Cleaners</string>
+    <string-array name="questions">
+        <item>Favourite Color?</item>
+        <item>First School Teacher?</item>
+        <item>Favourite Actor Name?</item>
+    </string-array>
 </resources>
