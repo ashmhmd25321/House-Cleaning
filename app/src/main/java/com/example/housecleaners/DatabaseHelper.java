@@ -58,6 +58,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public int deleteHouse(String userName) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        return sqLiteDatabase.delete(TABLE2,"userName = ?", new String[] {userName});
+    }
+
     public boolean insertHouseInfo(String houseId, String userName, String noOfRooms, String noOfBathRooms, String floorType, String address, byte[] image) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -87,6 +92,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return false;
         }
+    }
+
+    public Cursor viewHouse (String userName) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from HouseInfo where userName=?", new String[] {userName});
+        return cursor;
     }
 
     public boolean checkUsername (String userName) {

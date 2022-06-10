@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         houseInfo.setOnClickListener(v -> {
-            Intent intent = new Intent(this, HouseInfoActivity.class);
+            Intent intent = new Intent(this, ViewHouseInfo.class);
             intent.putExtra("name", user);
             startActivity(intent);
         });

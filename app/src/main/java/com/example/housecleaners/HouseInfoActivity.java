@@ -27,7 +27,7 @@ public class HouseInfoActivity extends AppCompatActivity implements AdapterView.
     TextView uN, floorType;
     EditText address, noOfRooms, noOfBathrooms, houseId;
     Spinner spinner;
-    Button back, browse, add, viewHouseInfo;
+    Button back, browse, add;
     ImageView imageView;
 
     private static final int PICK_IMAGE = 100;
@@ -51,12 +51,10 @@ public class HouseInfoActivity extends AppCompatActivity implements AdapterView.
         noOfRooms = findViewById(R.id.editTextNumber);
         noOfBathrooms = findViewById(R.id.editTextNumber2);
         houseId = findViewById(R.id.editTextNumber4);
-        viewHouseInfo = findViewById(R.id.button15);
 
         back.setBackgroundColor(Color.BLUE);
         browse.setBackgroundColor(Color.BLUE);
         add.setBackgroundColor(Color.BLUE);
-        viewHouseInfo.setBackgroundColor(Color.BLUE);
 
 
         String name = getIntent().getStringExtra("name");
@@ -68,7 +66,10 @@ public class HouseInfoActivity extends AppCompatActivity implements AdapterView.
         spinner.setOnItemSelectedListener(this);
 
         back.setOnClickListener(v -> {
-            finish();
+            String uName = uN.getText().toString();
+            Intent intent = new Intent(this, ViewHouseInfo.class);
+            intent.putExtra("name", uName);
+            startActivity(intent);
         });
 
         //image chooser
@@ -85,6 +86,8 @@ public class HouseInfoActivity extends AppCompatActivity implements AdapterView.
             String adrs = address.getText().toString();
             byte[] img = imageViewToByte(imageView);
 
+            int deleteHouse = dbh.deleteHouse(user);
+
             if (id.equals("") || user.equals("") || adrs.equals("") || rooms.equals("")) {
                 Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
             } else {
@@ -93,7 +96,9 @@ public class HouseInfoActivity extends AppCompatActivity implements AdapterView.
                     Boolean insert = dbh.insertHouseInfo(id, user, rooms, bathRooms, floor, adrs, img);
                     if (insert == true) {
                         Toast.makeText(this, "House Registered Successfully", Toast.LENGTH_SHORT).show();
-                        finish();
+                        Intent intent= new Intent(this, ViewHouseInfo.class);
+                        intent.putExtra("name", user);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(this, "Registered Failed", Toast.LENGTH_SHORT).show();
                     }
@@ -101,13 +106,6 @@ public class HouseInfoActivity extends AppCompatActivity implements AdapterView.
                     Toast.makeText(this, "User's House already exists!", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
-
-        viewHouseInfo.setOnClickListener(v -> {
-            String user = uN.getText().toString();
-            Intent intent = new Intent(this, ViewHouseInfo.class);
-            intent.putExtra("name", user);
-            startActivity(intent);
         });
 
     }
