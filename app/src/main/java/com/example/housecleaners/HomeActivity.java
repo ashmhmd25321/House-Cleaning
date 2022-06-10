@@ -2,6 +2,7 @@ package com.example.housecleaners;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 public class HomeActivity extends AppCompatActivity {
 
     TextView userName, userType;
-    Button houseInfo, createPost, customerFeedback, viewPost, cleanerFeedback;
+    Button houseInfo, createPost, customerFeedback, viewPost, cleanerFeedback, back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +29,14 @@ public class HomeActivity extends AppCompatActivity {
         customerFeedback = findViewById(R.id.button8);
         viewPost = findViewById(R.id.button10);
         cleanerFeedback = findViewById(R.id.button11);
+        back = findViewById(R.id.button9);
 
         houseInfo.setBackgroundColor(Color.BLUE);
         createPost.setBackgroundColor(Color.BLUE);
         customerFeedback.setBackgroundColor(Color.BLUE);
         viewPost.setBackgroundColor(Color.BLUE);
         cleanerFeedback.setBackgroundColor(Color.BLUE);
+        back.setBackgroundColor(Color.BLUE);
 
         String name = getIntent().getStringExtra("user");
         userName.setText(name);
@@ -44,14 +47,25 @@ public class HomeActivity extends AppCompatActivity {
         cursor.moveToNext();
         userType.setText(cursor.getString(4));
 
-        String uName = userType.getText().toString();
-        if (uName.equals("Customer")) {
+        String uTName = userType.getText().toString();
+        if (uTName.equals("Customer")) {
             viewPost.setVisibility(View.GONE);
             cleanerFeedback.setVisibility(View.GONE);
-        }else if (uName.equals("Cleaner")) {
+        }else if (uTName.equals("Cleaner")) {
             houseInfo.setVisibility(View.GONE);
             createPost.setVisibility(View.GONE);
             customerFeedback.setVisibility(View.GONE);
         }
+
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        });
+
+        houseInfo.setOnClickListener(v -> {
+            Intent intent = new Intent(this, HouseInfoActivity.class);
+            intent.putExtra("name", user);
+            startActivity(intent);
+        });
     }
 }

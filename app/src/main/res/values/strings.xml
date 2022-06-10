@@ -5,4 +5,10 @@
         <item>First School Teacher?</item>
         <item>Favourite Actor Name?</item>
     </string-array>
+    <string-array name="floors">
+        <item>Laminate Flooring</item>
+        <item>Tile</item>
+        <item>Vinyl</item>
+        <item>Cork</item>
+    </string-array>
 </resources>
