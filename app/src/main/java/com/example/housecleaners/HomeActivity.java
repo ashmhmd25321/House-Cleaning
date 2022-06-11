@@ -67,5 +67,11 @@ public class HomeActivity extends AppCompatActivity {
             intent.putExtra("name", user);
             startActivity(intent);
         });
+
+        createPost.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CreatePostActivity.class);
+            intent.putExtra("name", user);
+            startActivity(intent);
+        });
     }
 }

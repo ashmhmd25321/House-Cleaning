@@ -17,6 +17,9 @@
         android:theme="@style/Theme.HouseCleaners"
         tools:targetApi="31">
         <activity
+            android:name=".CreatePostActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewHouseInfo"
             android:exported="false" />
         <activity

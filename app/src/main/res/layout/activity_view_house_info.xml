@@ -59,7 +59,8 @@
         android:text="TextView"
         android:visibility="invisible"
         tools:layout_editor_absoluteX="312dp"
-        tools:layout_editor_absoluteY="75dp" />
+        tools:layout_editor_absoluteY="75dp"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/imageView6"

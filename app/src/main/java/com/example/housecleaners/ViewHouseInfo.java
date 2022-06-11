@@ -7,10 +7,12 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ImageFormat;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewHouseInfo extends AppCompatActivity {
 
@@ -44,15 +46,22 @@ public class ViewHouseInfo extends AppCompatActivity {
         String uN = user.getText().toString();
 
         Cursor cursor = dbh.viewHouse(uN);
-        cursor.moveToNext();
-        noOfRooms.setText(cursor.getString(2));
-        noOfBathrooms.setText(cursor.getString(3));
-        floorType.setText(cursor.getString(4));
-        address.setText(cursor.getString(5));
-        houseId.setText(cursor.getString(0));
-        byte[] image = cursor.getBlob(6);
-        Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
-        imageView.setImageBitmap(bmp);
+        if (cursor.moveToNext()) {
+            noOfRooms.setText(cursor.getString(2));
+            noOfBathrooms.setText(cursor.getString(3));
+            floorType.setText(cursor.getString(4));
+            address.setText(cursor.getString(5));
+            houseId.setText(cursor.getString(0));
+            byte[] image = cursor.getBlob(6);
+            Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
+            imageView.setImageBitmap(bmp);
+        } else {
+            Toast.makeText(this, "Cannot find House details. So please enter house details", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, HouseInfoActivity.class);
+            intent.putExtra("name", uN);
+            startActivity(intent);
+        }
+
 
         backBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, HomeActivity.class);

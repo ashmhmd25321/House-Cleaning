@@ -14,6 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "houseCleaner.db";
     private static final String TABLE1 = "User";
     private static final String TABLE2 = "HouseInfo";
+    private static final String TABLE3 = "Post";
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -24,10 +25,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //create tables
         String table1 = "CREATE TABLE "+TABLE1+"(userName TEXT primary key, password TEXT, securityQuestion TEXT, answer TEXT, userType TEXT)";
         String table2 = "CREATE TABLE "+TABLE2+"(houseId TEXT primary key, userName TEXT, noOfRooms TEXT, noOfBathRooms TEXT, floorType TEXT, address TEXT, image blob)";
+        String table3 = "CREATE TABLE "+TABLE3+"(userName TEXT primary key, houseId TEXT, noOfRooms TEXT, noOfBathRooms TEXT, floorType TEXT, address TEXT, image blob, price TEXT, date TEXT)";
         //db.execSQL("create table User (userName TEXT primary key, password TEXT, securityQuestion TEXT, answer TEXT, userType TEXT)");
         //db.execSQL("create table HouseInfo (houseId TEXT primary key, userName TEXT, noOfRooms TEXT, noOfBathRooms TEXT, floorType TEXT, address TEXT, image blob)");
         db.execSQL(table1);
         db.execSQL(table2);
+        db.execSQL(table3);
     }
 
     @Override
@@ -35,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //drop tables if existed
         db.execSQL("DROP TABLE IF EXISTS "+TABLE1);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE2);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE3);
 
         // creating tables again
         onCreate(db);
@@ -63,6 +67,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.delete(TABLE2,"userName = ?", new String[] {userName});
     }
 
+    public int deletePost(String userName) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        return sqLiteDatabase.delete(TABLE3,"userName = ?", new String[] {userName});
+    }
+
     public boolean insertHouseInfo(String houseId, String userName, String noOfRooms, String noOfBathRooms, String floorType, String address, byte[] image) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -83,9 +92,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean insertPost(String userName, String houseId, String noOfRooms, String noOfBathRooms, String floorType, String address, byte[] image, String price, String date) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("userName", userName);
+        contentValues.put("houseId", houseId);
+        contentValues.put("noOfRooms", noOfRooms);
+        contentValues.put("noOfBathRooms", noOfBathRooms);
+        contentValues.put("floorType", floorType);
+        contentValues.put("address", address);
+        contentValues.put("image", image);
+        contentValues.put("price", price);
+        contentValues.put("date", date);
+
+        long result = sqLiteDatabase.insert(TABLE3, null, contentValues);
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public boolean checkHouse (String userName) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("select * from HouseInfo where userName = ?", new String [] {userName});
+
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkPost (String userName) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from Post where userName = ?", new String [] {userName});
 
         if (cursor.getCount() > 0) {
             return true;
