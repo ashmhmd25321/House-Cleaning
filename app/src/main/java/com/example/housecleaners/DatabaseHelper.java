@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     //database name
@@ -60,6 +62,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+    public ArrayList<Post> getPost() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Post> arrayList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE3, null);
+        while (cursor.moveToNext()){
+            String user = cursor.getString(0);
+            String hId = cursor.getString(1);
+            String rooms = cursor.getString(2);
+            String bathrooms = cursor.getString(3);
+            String floor = cursor.getString(4);
+            String adrs = cursor.getString(5);
+            byte[] img = cursor.getBlob(6);
+            String prc = cursor.getString(7);
+            String dt = cursor.getString(8);
+
+            Post post = new Post(user, hId, rooms, bathrooms, floor, adrs, img, prc, dt);
+            arrayList.add(post);
+        }
+
+        return arrayList;
+
     }
 
     public int deleteHouse(String userName) {

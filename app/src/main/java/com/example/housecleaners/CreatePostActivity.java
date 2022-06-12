@@ -121,6 +121,13 @@ public class CreatePostActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        viewBtn.setOnClickListener(v -> {
+            String name = userName.getText().toString();
+            Intent intent = new Intent(this, ViewUserPostActivity.class);
+            intent.putExtra("name", name);
+            startActivity(intent);
+        });
+
 
             createBtn.setOnClickListener(v -> {
 
