@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 public class CreatePostActivity extends AppCompatActivity {
 
     TextView userName, noOfRooms, noOfBathrooms, floorType, address, houseId, room, bathRoom, floor, price, date;
-    Button backBtn, createBtn, viewBtn;
+    Button backBtn, createBtn;
     ImageView imageView;
 
     @Override
@@ -46,7 +46,6 @@ public class CreatePostActivity extends AppCompatActivity {
         price = findViewById(R.id.textView36);
         date = findViewById(R.id.textView39);
         createBtn = findViewById(R.id.button15);
-        viewBtn = findViewById(R.id.button18);
 
         long d = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("MMM MM dd, yyyy");
@@ -55,7 +54,6 @@ public class CreatePostActivity extends AppCompatActivity {
 
         backBtn.setBackgroundColor(Color.BLUE);
         createBtn.setBackgroundColor(Color.BLUE);
-        viewBtn.setBackgroundColor(Color.BLUE);
 
         String user = getIntent().getStringExtra("name");
         userName.setText(user);
@@ -118,13 +116,6 @@ public class CreatePostActivity extends AppCompatActivity {
         backBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra("user", uN);
-            startActivity(intent);
-        });
-
-        viewBtn.setOnClickListener(v -> {
-            String name = userName.getText().toString();
-            Intent intent = new Intent(this, ViewUserPostActivity.class);
-            intent.putExtra("name", name);
             startActivity(intent);
         });
 

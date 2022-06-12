@@ -17,6 +17,12 @@
         android:theme="@style/Theme.HouseCleaners"
         tools:targetApi="31">
         <activity
+            android:name=".FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PostDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Adapter"
             android:exported="false" />
         <activity

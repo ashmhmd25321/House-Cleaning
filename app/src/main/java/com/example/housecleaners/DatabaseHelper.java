@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE1 = "User";
     private static final String TABLE2 = "HouseInfo";
     private static final String TABLE3 = "Post";
+    private static final String TABLE4 = "Feedback";
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -28,11 +29,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String table1 = "CREATE TABLE "+TABLE1+"(userName TEXT primary key, password TEXT, securityQuestion TEXT, answer TEXT, userType TEXT)";
         String table2 = "CREATE TABLE "+TABLE2+"(houseId TEXT primary key, userName TEXT, noOfRooms TEXT, noOfBathRooms TEXT, floorType TEXT, address TEXT, image blob)";
         String table3 = "CREATE TABLE "+TABLE3+"(userName TEXT primary key, houseId TEXT, noOfRooms TEXT, noOfBathRooms TEXT, floorType TEXT, address TEXT, image blob, price TEXT, date TEXT)";
+        String table4 = "CREATE TABLE "+TABLE4+"(feedbackGiver TEXT, feedback TEXT, feedbackReceiver TEXT, date TEXT)";
         //db.execSQL("create table User (userName TEXT primary key, password TEXT, securityQuestion TEXT, answer TEXT, userType TEXT)");
         //db.execSQL("create table HouseInfo (houseId TEXT primary key, userName TEXT, noOfRooms TEXT, noOfBathRooms TEXT, floorType TEXT, address TEXT, image blob)");
         db.execSQL(table1);
         db.execSQL(table2);
         db.execSQL(table3);
+        db.execSQL(table4);
     }
 
     @Override
@@ -41,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE1);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE2);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE3);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE4);
 
         // creating tables again
         onCreate(db);
@@ -56,6 +60,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("userType", userType);
 
         long result = sqLiteDatabase.insert(TABLE1, null, contentValues);
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean insertFeedback(String feedbackGiver, String feedback, String feedbackReceiver, String date) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("feedbackGiver", feedbackGiver);
+        contentValues.put("feedback", feedback);
+        contentValues.put("feedbackReceiver", feedbackReceiver);
+        contentValues.put("date", date);
+
+        long result = sqLiteDatabase.insert(TABLE4, null, contentValues);
 
         if (result == -1) {
             return false;

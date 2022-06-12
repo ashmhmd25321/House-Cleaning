@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class HomeActivity extends AppCompatActivity {
 
     TextView userName, userType;
-    Button houseInfo, createPost, customerFeedback, viewPost, cleanerFeedback, back;
+    Button houseInfo, createPost, customerFeedback, viewPost, feedback, back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +28,14 @@ public class HomeActivity extends AppCompatActivity {
         createPost = findViewById(R.id.button7);
         customerFeedback = findViewById(R.id.button8);
         viewPost = findViewById(R.id.button10);
-        cleanerFeedback = findViewById(R.id.button11);
+        feedback = findViewById(R.id.button11);
         back = findViewById(R.id.button9);
 
         houseInfo.setBackgroundColor(Color.BLUE);
         createPost.setBackgroundColor(Color.BLUE);
         customerFeedback.setBackgroundColor(Color.BLUE);
         viewPost.setBackgroundColor(Color.BLUE);
-        cleanerFeedback.setBackgroundColor(Color.BLUE);
+        feedback.setBackgroundColor(Color.BLUE);
         back.setBackgroundColor(Color.BLUE);
 
         String name = getIntent().getStringExtra("user");
@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         String uTName = userType.getText().toString();
         if (uTName.equals("Customer")) {
             viewPost.setVisibility(View.GONE);
-            cleanerFeedback.setVisibility(View.GONE);
+            feedback.setVisibility(View.GONE);
         }else if (uTName.equals("Cleaner")) {
             houseInfo.setVisibility(View.GONE);
             createPost.setVisibility(View.GONE);
@@ -71,6 +71,24 @@ public class HomeActivity extends AppCompatActivity {
         createPost.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreatePostActivity.class);
             intent.putExtra("name", user);
+            startActivity(intent);
+        });
+
+        viewPost.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ViewUserPostActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+        });
+
+        feedback.setOnClickListener(v -> {
+            Intent intent = new Intent(this, FeedbackActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+        });
+
+        customerFeedback.setOnClickListener(v -> {
+            Intent intent = new Intent(this, FeedbackActivity.class);
+            intent.putExtra("user", user);
             startActivity(intent);
         });
     }
