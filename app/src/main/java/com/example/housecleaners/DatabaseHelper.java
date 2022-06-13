@@ -108,6 +108,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<Feed> getFeed(String feedbackReceiver) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Feed> arrayList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM Feedback WHERE feedbackReceiver=?", new String[] {feedbackReceiver});
+        while (cursor.moveToNext()) {
+            String giver = cursor.getString(0);
+            String feed = cursor.getString(1);
+            String receiver = cursor.getString(2);
+            String date = cursor.getString(3);
+
+            Feed feed1 = new Feed(giver, feed, receiver, date);
+            arrayList.add(feed1);
+        }
+        return arrayList;
+    }
+
     public int deleteHouse(String userName) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         return sqLiteDatabase.delete(TABLE2,"userName = ?", new String[] {userName});
